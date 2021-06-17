@@ -28,6 +28,22 @@ do
                 CHECK="invalid"
             fi
             ;;
+        *.mat)
+            python -c "import scipy.io as sio; data = sio.loadmat('$filepath')" >/dev/null 2>/dev/null
+            if [ $? -eq 0 ]; then
+                CHECK="ok"
+            else
+                CHECK="invalid"
+            fi
+            ;;
+        *.npy|*.npz)
+            python -c "import numpy; data = numpy.load('$filepath')" >/dev/null 2>/dev/null
+            if [ $? -eq 0 ]; then
+                CHECK="ok"
+            else
+                CHECK="invalid"
+            fi
+            ;;
         *.txt|*.log|*.xml)
             grep -P -n "[^\x00-\x7F]" $filepath >/dev/null 2>/dev/null
             if [ $? -eq 0 ]; then
@@ -41,6 +57,6 @@ do
             ;;
     esac
 
-    printf "%-32s  %7s  %25s  %-7s  %s\n" "$DIGEST" "$SIZE" "$LAST_MODIFIED" "$CHECK" "$filepath" 
+    printf "%-32s  %4s  %19s  %-7s  %s\n" "$DIGEST" "$SIZE" "$LAST_MODIFIED" "$CHECK" "$filepath" 
 
 done
