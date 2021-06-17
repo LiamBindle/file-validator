@@ -33,3 +33,4 @@ RUN git clone https://github.com/LiamBindle/batch_exec.git \
 &&  cmake -DCMAKE_INSTALL_PREFIX=/usr .. \
 &&  make -j install
 
+COPY check-file.sh /check-file.sh

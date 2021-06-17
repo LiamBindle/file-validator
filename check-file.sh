@@ -8,12 +8,12 @@ do
 
     LAST_MODIFIED=$(stat -L --printf="%Y" $filepath 2>/dev/null || echo "--")
     if [ "$LAST_MODIFIED" != "--" ]; then
-        LAST_MODIFIED=$(date --iso-8601=s -d @$LAST_MODIFIED)
+        LAST_MODIFIED=$(date -u -d @$LAST_MODIFIED +"%Y-%m-%dT%H:%M:%S")
     fi
 
     case $filepath in
         *.nc|*.nc4)
-            ncks -H $file_info{'path'} >/dev/null 2>/dev/null
+            ncks -H $filepath >/dev/null 2>/dev/null
             if [ $? -eq 0 ]; then
                 CHECK="ok"
             else
@@ -21,7 +21,7 @@ do
             fi
             ;;
         *.h5|*.hdf)
-            h5check $file_info{'path'} >/dev/null 2>/dev/null
+            h5check $filepath >/dev/null 2>/dev/null
             if [ $? -eq 0 ]; then
                 CHECK="ok"
             else
