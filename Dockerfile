@@ -24,7 +24,6 @@ RUN cd h5check* \
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     git \
     cmake \
-    perl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/LiamBindle/batch_exec.git \
@@ -34,10 +33,3 @@ RUN git clone https://github.com/LiamBindle/batch_exec.git \
 &&  cmake -DCMAKE_INSTALL_PREFIX=/usr .. \
 &&  make -j install
 
-RUN cpan install Number::Bytes::Human
-
-COPY validate.pl /
-
-COPY entrypoint.sh /
-
-ENTRYPOINT ["/entrypoint.sh"]

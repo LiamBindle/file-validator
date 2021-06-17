@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mpirun -np $1 --allow-run-as-root batch_exec -i $2 /validate.pl
+mpirun -np $LSB_DJOB_NUMPROC --allow-run-as-root batch_exec -i $1 /validate.pl

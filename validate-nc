@@ -1,0 +1,15 @@
+#!/bin/bash
+
+FILENAME=$1
+
+FILE_SIZE=$(wc -c < ${FILENAME} 2> /dev/null)
+MD5SUM=$(md5sum ${FILENAME} 2> /dev/null | awk '{ print $1 }')
+
+ncks -H ${FILENAME} &> /dev/null
+if [ $? -eq 0 ]; then
+    NC_VALID="ok"
+else
+    NC_VALID="invalid"
+fi
+
+printf "%32s  %10d  %-7s  %s\n" "$MD5SUM" "$FILE_SIZE" "$NC_VALID" "$FILENAME"
